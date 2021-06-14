@@ -1,0 +1,9 @@
+.idea
+.vscode
+out/*
+node_modules/*
+*.iws
+*.iml
+*.ipr
+
+build/*
