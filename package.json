@@ -3,7 +3,10 @@
 	"displayName": "Divekit",
 	"description": "Plugin for the Divekit tool",
 	"version": "0.0.1",
-	"repository": {"url": "https://github.com/divekit/divekit-language-plugin-vscode"},
+	"publisher": "Divekit",
+	"repository": {
+		"url": "https://github.com/divekit/divekit-language-plugin-vscode"
+	},
 	"icon": "images/divekit_icon.png",
 	"engines": {
 		"vscode": "^1.46.0"
@@ -15,7 +18,7 @@
 		"onLanguage:divekit"
 	],
 	"dependencies": {
-		"vscode-languageclient": "5.1.1"
+		"vscode-languageclient": "7.0.0"
 	},
 	"main": "./out/extension.js",
 	"contributes": {
