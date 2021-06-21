@@ -7,34 +7,21 @@ import { LanguageClient, LanguageClientOptions, ServerOptions } from 'vscode-lan
 // Name of the launcher class which contains the main.
 const main: string = 'StdioLauncher';
 
+let pathToJar: string = "";
+let pathToVariationsConfig: string = "";
+let pathToExtensionsConfig: string = "";
+
 // this method is called when your extension is activated
 // your extension is activated the very first time the command is executed
 export function activate(context: vscode.ExtensionContext) {
 
-	let pathToJar: string | undefined = vscode.workspace.getConfiguration().get('divekit.paths.pathToLanguageServerJar');
-	let pathToVariationsConfig: string | undefined = vscode.workspace.getConfiguration().get('divekit.paths.pathToVariationsConfigJson');
-	let pathToExtensionsConfig: string | undefined = vscode.workspace.getConfiguration().get('divekit.paths.pathToVariableExtensionsConfigJson');
-
-	if(pathToJar === undefined || pathToJar.length <= 0) {
-		vscode.window.showInformationMessage('Settings: Bitte den absoluten Pfad zur Divekit Language Server Jar eingeben!');
-		return;
-	}
-	if(pathToVariationsConfig === undefined || pathToVariationsConfig.length <= 0) {
-		vscode.window.showInformationMessage('Settings: Bitte den absoluten Pfad zur variationsConfig.json eingeben!');
-		return;
-	}
-	if(pathToExtensionsConfig === undefined || pathToExtensionsConfig.length <= 0) {
-		vscode.window.showInformationMessage('Settings: Bitte den absoluten Pfad zur variableExtensionsConfig.json eingeben!');
+	if(!isActive()) {
 		return;
 	}
 
-	let jarExists: boolean = false;
-	let variationsConfigExists: boolean = false;
-	let variableExtensionsConfigExists: boolean = false;
-	
-	fs.existsSync(pathToJar) ? jarExists = true : vscode.window.showInformationMessage('Divekit Language Server JAR nicht gefunden. Pfad richtig angegeben?');
-	fs.existsSync(pathToVariationsConfig) ? variationsConfigExists = true : vscode.window.showInformationMessage('variationsConfig.json nicht gefunden. Pfad richtig angegeben?');
-	fs.existsSync(pathToExtensionsConfig) ? variableExtensionsConfigExists = true : vscode.window.showInformationMessage('variableExtensionsConfig.json nicht gefunden. Pfad richtig angegeben?');
+	if(!allPathsEntered()) {
+		return;
+	}
 
 	// Get the java home from the process environment.
 	const { JAVA_HOME } = process.env;
@@ -44,7 +31,7 @@ export function activate(context: vscode.ExtensionContext) {
 	}
 
 	// If JAVA_HOME and all needed files are present, start the language server
-	if (JAVA_HOME && jarExists && variationsConfigExists && variableExtensionsConfigExists) {
+	if (JAVA_HOME && allFilesFound()) {
 		const args: string[] = ["-jar", pathToJar, pathToVariationsConfig, pathToExtensionsConfig];
 
 		// Set the server options 
@@ -70,6 +57,45 @@ export function activate(context: vscode.ExtensionContext) {
 		// Disposables to remove on deactivation.
 		context.subscriptions.push(disposable);
 	}	
+}
+
+function isActive(): boolean|undefined {
+	return vscode.workspace.getConfiguration().get('divekit.general.active');
+}
+
+function allPathsEntered(): boolean {
+	let allPathsEntered: boolean = true;
+
+	pathToJar = vscode.workspace.getConfiguration().get('divekit.paths.pathToLanguageServerJar')!;
+	pathToVariationsConfig = vscode.workspace.getConfiguration().get('divekit.paths.pathToVariationsConfigJson')!;
+	pathToExtensionsConfig = vscode.workspace.getConfiguration().get('divekit.paths.pathToVariableExtensionsConfigJson')!;
+
+	if(pathToJar === undefined || pathToJar.length <= 0) {
+		vscode.window.showInformationMessage('Settings: Bitte den absoluten Pfad zur Divekit Language Server Jar eingeben!');
+		allPathsEntered = false;
+	}
+	if(pathToVariationsConfig === undefined || pathToVariationsConfig.length <= 0) {
+		vscode.window.showInformationMessage('Settings: Bitte den absoluten Pfad zur variationsConfig.json eingeben!');
+		allPathsEntered = false;
+	}
+	if(pathToExtensionsConfig === undefined || pathToExtensionsConfig.length <= 0) {
+		vscode.window.showInformationMessage('Settings: Bitte den absoluten Pfad zur variableExtensionsConfig.json eingeben!');
+		allPathsEntered = false;
+	}
+
+	return allPathsEntered;
+}
+
+function allFilesFound(): boolean {
+	let jarExists: boolean = false;
+	let variationsConfigExists: boolean = false;
+	let variableExtensionsConfigExists: boolean = false;
+	
+	fs.existsSync(pathToJar) ? jarExists = true : vscode.window.showInformationMessage('Divekit Language Server JAR nicht gefunden. Pfad richtig angegeben?');
+	fs.existsSync(pathToVariationsConfig) ? variationsConfigExists = true : vscode.window.showInformationMessage('variationsConfig.json nicht gefunden. Pfad richtig angegeben?');
+	fs.existsSync(pathToExtensionsConfig) ? variableExtensionsConfigExists = true : vscode.window.showInformationMessage('variableExtensionsConfig.json nicht gefunden. Pfad richtig angegeben?');
+
+	return jarExists && variationsConfigExists && variableExtensionsConfigExists;
 }
 
 export function deactivate() {}

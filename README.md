@@ -25,8 +25,8 @@ Nach der Installation sind noch folgende Schritte erforderlich:
   und wieder geöffnet werden. Wenn unten rechts die Meldung erscheint, dass der Language Server in diesem Projekt genutzt werden kann, hat
   alles funktioniert.
   
-* Wenn man in einem Markdown- oder Java-File zwischen der Code-Completion für das Platzhaltervariablen System und der Code-Completion
-für dementsprechend Java oder Markdown wechseln möchte, kann man dies über die Symbolleister unterhalb des Editorfensters von VSCode. Nach einem Klick kann
+* Wenn man in einem Markdown- oder Java-File zwischen der Code-Completion des Platzhaltervariablensystemes und der Code-Completion
+für dementsprechend Java oder Markdown wechseln möchte, kann man dies über die Symbolleiste unterhalb des Editorfensters von VSCode. Nach einem Klick kann
   hier eine Sprache ausgewählt werden.
 
 ## Weiterentwicklung & Anpassungen
@@ -39,4 +39,5 @@ für dementsprechend Java oder Markdown wechseln möchte, kann man dies über di
 * Im Reiter Run & Debug (CTRL + SHIFT + D) lässt sich über "Run Extension" (F5) eine neue
   VSCode Instanz mit installierter Extension zum schnellen Testen der Funktionalität öffnen.
 
+  
 ## Testen
