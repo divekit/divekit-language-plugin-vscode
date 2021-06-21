@@ -20,6 +20,9 @@ Nach der Installation sind noch folgende Schritte erforderlich:
 * Der absolute Pfad zu den Dateien `variationsConfig.json` und `variableExtensionsConfig.json` muss in den Einstellungen
   eingetragen werden.
   Achtung: Das Plugin startet den Language Server nur, wenn die beiden Config-Dateien gefunden werden.
+  
+* Daraufhin muss das Plugin noch über einen Haken im Kästchen bei den Einstellungen aktiviert werden. Hier kann das Plugin ebenfalls 
+deaktiviert werden, wenn man an anderen Projekten arbeitet und nicht möchte, dass die Notifications vom Divekit Language Plugin nerven.
 
 * Anschließend kann das Projekt `automated-repo-setup` gestartet werden. Wenn es vorher schon geöffnet war, muss es einmal geschlossen
   und wieder geöffnet werden. Wenn unten rechts die Meldung erscheint, dass der Language Server in diesem Projekt genutzt werden kann, hat
@@ -38,6 +41,3 @@ für dementsprechend Java oder Markdown wechseln möchte, kann man dies über di
 
 * Im Reiter Run & Debug (CTRL + SHIFT + D) lässt sich über "Run Extension" (F5) eine neue
   VSCode Instanz mit installierter Extension zum schnellen Testen der Funktionalität öffnen.
-
-  
-## Testen

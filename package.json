@@ -27,7 +27,7 @@
 			"properties": {
 				"divekit.general.active": {
 					"type": "boolean",
-					"default": "false",
+					"default": false,
 					"description": "Tick box to activate the divekit language server plugin"
 				},
 				"divekit.paths.pathToLanguageServerJar": {
