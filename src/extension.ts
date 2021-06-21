@@ -70,15 +70,15 @@ function allPathsEntered(): boolean {
 	pathToVariationsConfig = vscode.workspace.getConfiguration().get('divekit.paths.pathToVariationsConfigJson')!;
 	pathToExtensionsConfig = vscode.workspace.getConfiguration().get('divekit.paths.pathToVariableExtensionsConfigJson')!;
 
-	if(pathToJar === undefined || pathToJar.length <= 0) {
+	if(pathToJar.length <= 0) {
 		vscode.window.showInformationMessage('Settings: Bitte den absoluten Pfad zur Divekit Language Server Jar eingeben!');
 		allPathsEntered = false;
 	}
-	if(pathToVariationsConfig === undefined || pathToVariationsConfig.length <= 0) {
+	if(pathToVariationsConfig.length <= 0) {
 		vscode.window.showInformationMessage('Settings: Bitte den absoluten Pfad zur variationsConfig.json eingeben!');
 		allPathsEntered = false;
 	}
-	if(pathToExtensionsConfig === undefined || pathToExtensionsConfig.length <= 0) {
+	if(pathToExtensionsConfig.length <= 0) {
 		vscode.window.showInformationMessage('Settings: Bitte den absoluten Pfad zur variableExtensionsConfig.json eingeben!');
 		allPathsEntered = false;
 	}
