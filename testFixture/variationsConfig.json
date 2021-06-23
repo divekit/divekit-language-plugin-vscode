@@ -1,0 +1,25 @@
+{
+    "objects": [
+      {
+        "ids": "Vehicle",
+        "objectVariations": [
+          {
+            "id": "RaceCar",
+            "Attr": {
+              "Power": {
+                "": "horsePower",
+                "Type": "Integer",
+                "Value": 203
+              },
+              "Built": {
+                "": "yearBuilt",
+                "Type": "Integer",
+                "Value": 2017
+              }
+            }
+          }
+        ],
+        "variableExtensions": ["Basic", "Getter"]
+      }
+    ]
+  }

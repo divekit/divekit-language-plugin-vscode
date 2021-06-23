@@ -1,0 +1,48 @@
+[
+    {
+      "id": "Basic",
+      "variableExtensions":
+      {
+        "": {
+          "preValue": "",
+          "value": "id",
+          "postValue": "",
+          "modifier": "NONE"
+        },
+        "Class":
+        {
+          "preValue": "",
+          "value": "id",
+          "postValue": "",
+          "modifier": "NONE"
+        },
+        "ClassPath":
+        {
+          "preValue": "thkoeln.praktikum.",
+          "value": "Class",
+          "postValue": "",
+          "modifier": "NONE"
+        }
+      }
+    },
+    {
+      "id": "Getter",
+      "variableExtensions":
+      {
+        "GetToOne":
+        {
+          "preValue": "get",
+          "value": "Class",
+          "postValue": "",
+          "modifier": "NONE"
+        },
+        "GetToMany":
+        {
+          "preValue": "get",
+          "value": "s",
+          "postValue": "",
+          "modifier": "NONE"
+        }
+      }
+    }
+  ]

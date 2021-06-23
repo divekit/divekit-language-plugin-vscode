@@ -2,7 +2,7 @@
 	"name": "divekit",
 	"displayName": "Divekit",
 	"description": "Plugin for the Divekit tool",
-	"version": "0.0.2",
+	"version": "0.1.0",
 	"publisher": "Divekit",
 	"repository": {
 		"url": "https://github.com/divekit/divekit-language-plugin-vscode"
