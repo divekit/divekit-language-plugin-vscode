@@ -17,8 +17,8 @@ Nach der Installation sind noch folgende Schritte erforderlich:
 
 * Der absolute Pfad zur JAR muss in den Einstellungen unter Settings -> Extensions -> Divekit eingetragen werden.
 
-* Der absolute Pfad zu den Dateien `variationsConfig.json` und `variableExtensionsConfig.json` muss in den Einstellungen
-  eingetragen werden.
+* Der absolute Pfad zu den Dateien `variationsConfig.json` und `variableExtensionsConfig.json` kann in den Einstellungen
+  eingetragen werden. Werden die Felder leer gelassen, sucht das Plugin automatisch in allen Verzeichnissen unterhalb des aktuell geöffneten Workspaces nach den Config-Dateien.
   Achtung: Das Plugin startet den Language Server nur, wenn die beiden Config-Dateien gefunden werden.
   
 * Daraufhin muss das Plugin noch über einen Haken im Kästchen bei den Einstellungen aktiviert werden. Hier kann das Plugin ebenfalls 
