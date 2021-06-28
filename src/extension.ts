@@ -3,6 +3,7 @@
 import * as vscode from 'vscode';
 import * as fs from 'fs';
 import { LanguageClient, LanguageClientOptions, ServerOptions } from 'vscode-languageclient/node';
+import * as path from 'path';
 
 // Name of the launcher class which contains the main.
 const main: string = 'StdioLauncher';
@@ -19,9 +20,11 @@ export function activate(context: vscode.ExtensionContext) {
 		return;
 	}
 
-	if(!allPathsEntered()) {
+	if(!jarPathEntered()) {
 		return;
 	}
+
+	getConfigPaths();
 
 	// Get the java home from the process environment.
 	const { JAVA_HOME } = process.env;
@@ -63,27 +66,57 @@ function isActive(): boolean|undefined {
 	return vscode.workspace.getConfiguration().get('divekit.general.active');
 }
 
-function allPathsEntered(): boolean {
-	let allPathsEntered: boolean = true;
+function jarPathEntered(): boolean {
+	let jarPathEntered: boolean = true;
 
 	pathToJar = vscode.workspace.getConfiguration().get('divekit.paths.pathToLanguageServerJar')!;
-	pathToVariationsConfig = vscode.workspace.getConfiguration().get('divekit.paths.pathToVariationsConfigJson')!;
-	pathToExtensionsConfig = vscode.workspace.getConfiguration().get('divekit.paths.pathToVariableExtensionsConfigJson')!;
 
 	if(pathToJar.length <= 0) {
 		vscode.window.showInformationMessage('Settings: Bitte den absoluten Pfad zur Divekit Language Server Jar eingeben!');
-		allPathsEntered = false;
-	}
-	if(pathToVariationsConfig.length <= 0) {
-		vscode.window.showInformationMessage('Settings: Bitte den absoluten Pfad zur variationsConfig.json eingeben!');
-		allPathsEntered = false;
-	}
-	if(pathToExtensionsConfig.length <= 0) {
-		vscode.window.showInformationMessage('Settings: Bitte den absoluten Pfad zur variableExtensionsConfig.json eingeben!');
-		allPathsEntered = false;
+		jarPathEntered = false;
+	} else {
+		pathToJar = pathToJar.concat('.jar');
 	}
 
-	return allPathsEntered;
+	return jarPathEntered;
+}
+
+function getConfigPaths() {
+	let rootPath = vscode.workspace.workspaceFolders![0].uri.fsPath;
+
+	pathToVariationsConfig = vscode.workspace.getConfiguration().get('divekit.paths.pathToVariationsConfigJson')!;
+	pathToExtensionsConfig = vscode.workspace.getConfiguration().get('divekit.paths.pathToVariableExtensionsConfigJson')!;
+
+	if(pathToVariationsConfig.length <= 0) {
+		pathToVariationsConfig = scanWorkspace('variationsConfig.json', rootPath);
+	} else {
+		pathToVariationsConfig = pathToVariationsConfig.concat('.json');
+	}
+	if(pathToExtensionsConfig.length <= 0) {
+		pathToExtensionsConfig = scanWorkspace('variableExtensionsConfig.json', rootPath);
+	} else {
+		pathToExtensionsConfig = pathToExtensionsConfig.concat('.json');
+	}
+}
+
+function scanWorkspace(fileName: string, workspace: string): string {
+	let files = fs.readdirSync(workspace);
+	let pathToConfigFile: string = '';
+
+	files.forEach((file) => {
+		let name = path.join(workspace, file);
+		let stat = fs.lstatSync(name);
+
+		if(stat.isDirectory()) {
+			if(pathToConfigFile.length <= 0) {
+				pathToConfigFile = scanWorkspace(fileName, name);
+			}
+		} else if (name.indexOf(fileName) >= 0) {
+			pathToConfigFile = name;
+		}
+	});
+
+	return pathToConfigFile;
 }
 
 function allFilesFound(): boolean {
@@ -92,8 +125,8 @@ function allFilesFound(): boolean {
 	let variableExtensionsConfigExists: boolean = false;
 	
 	fs.existsSync(pathToJar) ? jarExists = true : vscode.window.showInformationMessage('Divekit Language Server JAR nicht gefunden. Pfad richtig angegeben?');
-	fs.existsSync(pathToVariationsConfig) ? variationsConfigExists = true : vscode.window.showInformationMessage('variationsConfig.json nicht gefunden. Pfad richtig angegeben?');
-	fs.existsSync(pathToExtensionsConfig) ? variableExtensionsConfigExists = true : vscode.window.showInformationMessage('variableExtensionsConfig.json nicht gefunden. Pfad richtig angegeben?');
+	fs.existsSync(pathToVariationsConfig) ? variationsConfigExists = true : vscode.window.showInformationMessage('variationsConfig.json nicht gefunden.');
+	fs.existsSync(pathToExtensionsConfig) ? variableExtensionsConfigExists = true : vscode.window.showInformationMessage('variableExtensionsConfig.json nicht gefunden.');
 
 	return jarExists && variationsConfigExists && variableExtensionsConfigExists;
 }

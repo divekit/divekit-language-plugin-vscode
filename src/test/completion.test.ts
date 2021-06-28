@@ -10,6 +10,7 @@ suite('Divekit Completion', () => {
         await testCompletion(docUri, new vscode.Position(0, 0), 
             [
                 '$Vehicle$',
+                '$vehicle$',
                 '$Vehicle_Attr_Built$',
                 '$Vehicle_Attr_BuiltType$',
                 '$Vehicle_Attr_BuiltValue$',
